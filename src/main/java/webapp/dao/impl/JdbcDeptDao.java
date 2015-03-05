@@ -9,22 +9,20 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
-import org.springframework.dao.DataAccessException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import webapp.dao.DeptDao;
 import webapp.model.Dept;
 import webapp.model.Emp;
-import webapp.util.GlobalVars;
 
 public class JdbcDeptDao implements DeptDao {
 
 	
-	static Logger log = Logger.getLogger(JdbcDeptDao.class);
+	static Log log = LogFactory.getLog(JdbcDeptDao.class);
 	
 	DataSource dataSource;
 	
@@ -116,17 +114,38 @@ public class JdbcDeptDao implements DeptDao {
 
 	@Override
 	public List<Dept> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("###########");
+		log.info("selectAll()");
+		log.info("###########");
+		
+		List<Dept> list = null;
+		Connection con = DataSourceUtils.getConnection(dataSource);
+		try {
+			PreparedStatement pstmt = con.prepareStatement(SELECT_ALL);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()){
+				if(list == null)
+					list = new ArrayList<Dept>();
+				Dept d = new Dept();
+				d.setDeptno(rs.getInt("deptno"));
+				d.setDname(rs.getString("dname"));
+				d.setLoc(rs.getString("loc"));
+				list.add(d);
+			}
+		} catch (SQLException e) {
+			throw new DataRetrievalFailureException("Select All",e);
+		}
+		
+		return list;
 	}
 
 	@Override
 	public List<Dept> selectAllWithEmps() {
-		// TODO Auto-generated method stub
+		log.info("###################");
+		log.info("selectAllWithEmps()");
+		log.info("###################");
 		return null;
 	}
-
-	
-
 
 }

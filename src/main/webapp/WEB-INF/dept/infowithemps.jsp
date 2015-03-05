@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset=UTF-8">
-<title>Info With Emps</title>
+<title>InfoWithEmps.jsp</title>
 </head>
 <body>
 	<hr>

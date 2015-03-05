@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset=UTF-8">
-<title>info</title>
+<title>info.jsp</title>
 </head>
 <body>
 <hr>
